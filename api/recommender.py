@@ -8,7 +8,7 @@ from tourist_attraction_api.settings import BASE_DIR
 
 def budget_loc_recommendation(lat, long, budget):
     # Filter the data based on the user's budget
-    data = pd.read_csv(BASE_DIR+'/tourism_data.csv')
+    data = pd.read_csv(BASE_DIR+'/api/tourism_data.csv')
     data = data[data['price'] <= budget]
 
     # Compute the distance matrix between tourist places and user country
