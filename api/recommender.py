@@ -16,20 +16,20 @@ def budget_loc_recommendation(lat, long, budget=1000):
     user_location = (lat, long)
     distances = []
     for _, row in data.iterrows():
-        tourist_location = (row['lat'], row['long'])
+        tourist_location = (row['lat'], row['lng'])
         distance = geodesic(user_location, tourist_location).km
         distances.append(distance)
 
     data['distance'] = distances
 
     # Filter the data based on the user's location
-    max_distance = 500  # Maximum distance from user's location in km
+    max_distance = 50  # Maximum distance from user's location in km
     data = data[data['distance'] <= max_distance]
 
     # Compute the similarity matrix between tourist places
     tfidf = TfidfVectorizer(stop_words='english')
-    data['neighbourhood group'] = data['neighbourhood group'].fillna('')
-    tfidf_matrix = tfidf.fit_transform(data['neighbourhood group'])
+    data['country'] = data['country'].fillna('')
+    tfidf_matrix = tfidf.fit_transform(data['country'])
     similarity_matrix = cosine_similarity(tfidf_matrix)
 
     # Get the top n similar tourist places
@@ -48,13 +48,22 @@ def budget_loc_recommendation(lat, long, budget=1000):
         top_indices = [i[0] for i in similarity_scores[1:n+1]]
 
         # Get the names of the top n similar tourist places
-        top_names = data['NAME'].iloc[top_indices]
+        top_names = data['name'].iloc[top_indices]
 
         # Add the recommendations to the list
         recommendations.append(
-            {'tourist_place': data['NAME'].iloc[i], 'location': data["neighbourhood"].iloc[i], 'price': data['price'].iloc[i], 'lat': data['lat'].iloc[i], 'long': data['long'].iloc[i], 'ratings': data['review rate number'].iloc[i]})
+            {
+                'business_status': data['business_status'].iloc[i],
+                'tourist_place': data['name'].iloc[i],
+                'opening_now': data['opening_hours'].iloc[i],
+                'about': data['photos'].iloc[i],
+                'location': data["formatted_address"].iloc[i],
+                'country': data['country'].iloc[i],
+                'price': data['price'].iloc[i],
+                'lat': data['lat'].iloc[i],
+                'long': data['lng'].iloc[i],
+                'ratings': data['ratings'].iloc[i],
+                'user_ratings_total': data['user_ratings_total'].iloc[i]
+            })
 
     return recommendations
-
-
-print(budget_loc_recommendation(40, -72, 100)[0])
