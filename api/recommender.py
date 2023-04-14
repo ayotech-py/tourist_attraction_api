@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 def budget_loc_recommendation(lat, long, budget):
     # Filter the data based on the user's budget
-    data = pd.read_csv('tourism_data.csv')
+    data = pd.read_csv('./tourism_data.csv')
     data = data[data['price'] <= budget]
 
     # Compute the distance matrix between tourist places and user country
