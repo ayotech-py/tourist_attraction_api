@@ -211,6 +211,3 @@ def tourist_type_recommendation(lat, long, keyword, max_distance=50):
             })
 
     return recommendations
-
-
-print(budget_loc_recommendation(lat=6.518028, long=3.399040, budget=700))
