@@ -2,13 +2,14 @@ from geopy.distance import geodesic
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from pathlib import Path
 
-from tourist_attraction_api.settings import BASE_DIR
+BASE_DIR = Path(__file__).resolve().parent
 
 
 def budget_loc_recommendation(lat, long, budget):
     # Filter the data based on the user's budget
-    data = pd.read_csv(BASE_DIR+'tourism_data.csv')
+    data = pd.read_csv(str(BASE_DIR)+'/tourism_data.csv')
     data = data[data['price'] <= budget]
 
     # Compute the distance matrix between tourist places and user country
@@ -73,8 +74,7 @@ def budget_loc_recommendation(lat, long, budget):
 
 def tourism_recommendation(lat, long, budget=1000):
     # Filter the data based on the user's budget
-    data = pd.read_csv(
-        '/home/ayotech/tourist_env/tourist_attraction_api/api/tourism_data.csv')
+    data = pd.read_csv(str(BASE_DIR)+'/tourism_data.csv')
     data = data[data['price'] <= budget]
 
     # Compute the distance matrix between tourist places and user location
@@ -139,8 +139,7 @@ def tourism_recommendation(lat, long, budget=1000):
 
 def tourist_type_recommendation(lat, long, keyword, max_distance=50):
     # Load the data from CSV file
-    data = pd.read_csv(
-        '/home/ayotech/tourist_env/tourist_attraction_api/api/tourism_data.csv')
+    data = pd.read_csv(str(BASE_DIR)+'/tourism_data.csv')
 
     # Filter the data based on keyword matching
     mask = (data['types'].str.contains(keyword, case=False)) | (
@@ -212,3 +211,6 @@ def tourist_type_recommendation(lat, long, keyword, max_distance=50):
             })
 
     return recommendations
+
+
+print(budget_loc_recommendation(lat=6.518028, long=3.399040, budget=600))
