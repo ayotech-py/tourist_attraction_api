@@ -62,7 +62,7 @@ class TypeInputView(APIView):
 
         try:
             result = tourist_type_recommendation(
-                lat=lat, long=long, preferred_type=preferred_type)
+                lat=lat, long=long, keyword=preferred_type)
             context = {
                 'data': result
             }
@@ -85,7 +85,7 @@ class TypeRadiusInputView(APIView):
 
         try:
             result = tourist_type_recommendation(
-                lat=lat, long=long, preferred_type=preferred_type, max_distance=radius)
+                lat=lat, long=long, keyword=preferred_type, max_distance=radius)
             context = {
                 'data': result
             }
