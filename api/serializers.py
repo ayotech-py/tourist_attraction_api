@@ -6,6 +6,12 @@ class LocInputSerializer(serializers.Serializer):
     long = serializers.FloatField()
 
 
+class LocRadiusSerializer(serializers.Serializer):
+    lat = serializers.FloatField()
+    long = serializers.FloatField()
+    radius = serializers.IntegerField()
+
+
 class BudgetInputSerializer(serializers.Serializer):
     budget = serializers.IntegerField()
     lat = serializers.FloatField()

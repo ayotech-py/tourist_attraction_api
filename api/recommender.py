@@ -6,10 +6,11 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 
+data = pd.read_csv(str(BASE_DIR)+'/tourism_data.csv')
 
-def budget_loc_recommendation(lat, long, budget):
+
+def budget_loc_recommendation(lat, long, budget, data=data):
     # Filter the data based on the user's budget
-    data = pd.read_csv(str(BASE_DIR)+'/tourism_data.csv')
     data = data[data['price'] <= budget]
 
     # Compute the distance matrix between tourist places and user country
@@ -25,7 +26,7 @@ def budget_loc_recommendation(lat, long, budget):
     data['distance'] = distances
 
     # Filter the data based on the user's location
-    max_distance = 50  # Maximum distance from user's location in km
+    max_distance = 100  # Maximum distance from user's location in km
     data = data[data['distance'] <= max_distance]
 
     # Compute the similarity matrix between tourist places
@@ -60,7 +61,7 @@ def budget_loc_recommendation(lat, long, budget):
                 'opening_now': data['opening_hours'].iloc[i],
                 'about': data['photos'].iloc[i],
                 'location': data["formatted_address"].iloc[i],
-                'country': data['country'].iloc[i],
+                'country': str(data['country'].iloc[i]).replace('%20', ' '),
                 'price': data['price'].iloc[i],
                 'lat': data['lat'].iloc[i],
                 'long': data['lng'].iloc[i],
@@ -72,9 +73,8 @@ def budget_loc_recommendation(lat, long, budget):
     return recommendations
 
 
-def tourism_recommendation(lat, long, budget=1000):
+def tourism_recommendation(lat, long, max_distance=100, budget=1000, data=data):
     # Filter the data based on the user's budget
-    data = pd.read_csv(str(BASE_DIR)+'/tourism_data.csv')
     data = data[data['price'] <= budget]
 
     # Compute the distance matrix between tourist places and user location
@@ -90,7 +90,7 @@ def tourism_recommendation(lat, long, budget=1000):
     data['distance'] = distances
 
     # Filter the data based on the user's location
-    max_distance = 500  # Maximum distance from user's location in km
+
     data = data[data['distance'] <= max_distance]
 
     # Compute the similarity matrix between tourist places
@@ -125,7 +125,7 @@ def tourism_recommendation(lat, long, budget=1000):
                 'opening_now': data['opening_hours'].iloc[i],
                 'about': data['photos'].iloc[i],
                 'location': data["formatted_address"].iloc[i],
-                'country': data['country'].iloc[i],
+                'country': str(data['country'].iloc[i]).replace('%20', ' '),
                 'price': data['price'].iloc[i],
                 'lat': data['lat'].iloc[i],
                 'long': data['lng'].iloc[i],
@@ -137,10 +137,7 @@ def tourism_recommendation(lat, long, budget=1000):
     return recommendations
 
 
-def tourist_type_recommendation(lat, long, keyword, max_distance=50):
-    # Load the data from CSV file
-    data = pd.read_csv(str(BASE_DIR)+'/tourism_data.csv')
-
+def tourist_type_recommendation(lat, long, keyword, max_distance=100, data=data):
     # Filter the data based on keyword matching
     mask = (data['types'].str.contains(keyword, case=False)) | (
         data['name'].str.contains(keyword, case=False))
@@ -201,7 +198,7 @@ def tourist_type_recommendation(lat, long, keyword, max_distance=50):
                 'opening_now': data['opening_hours'].iloc[i],
                 'about': data['photos'].iloc[i],
                 'location': data["formatted_address"].iloc[i],
-                'country': data['country'].iloc[i],
+                'country': str(data['country'].iloc[i]).replace('%20', ' '),
                 'price': data['price'].iloc[i],
                 'lat': data['lat'].iloc[i],
                 'long': data['lng'].iloc[i],
