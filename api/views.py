@@ -139,7 +139,7 @@ class SearchView(APIView):
         #serializer = self.serializer_class(data=data)
         # serializer.is_valid(raise_exception=True)
         keyword = data['keyword']
-        country = data['country']
+        country = data['location']
 
         try:
             result = tourist_search(keyword=keyword, country=country)
