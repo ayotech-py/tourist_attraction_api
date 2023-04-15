@@ -269,6 +269,7 @@ print(response.text)
 # API Error Handling
 
 When a request is sent to the API endpoint and it doesn't find any tourist place based on the users input, an Error Code 400 is returned
+
 **Header**
 
 ```
