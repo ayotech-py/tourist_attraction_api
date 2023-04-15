@@ -7,4 +7,6 @@ urlpatterns = [
     path('tourist_budget/', BudgetInputView.as_view()),
     path('tourist_type/', TypeInputView.as_view()),
     path('tourist_type_radius/', TypeRadiusInputView.as_view()),
+    path('tourist_search/', SearchView.as_view()),
+    path('', UrlViews.as_view())
 ]

@@ -19,13 +19,18 @@ class BudgetInputSerializer(serializers.Serializer):
 
 
 class TypeInputSerializer(serializers.Serializer):
-    preferred_type = serializers.CharField()
+    keyword = serializers.CharField()
     lat = serializers.FloatField()
     long = serializers.FloatField()
 
 
 class TypeRadiusInputSerializer(serializers.Serializer):
-    preferred_type = serializers.CharField()
+    keyword = serializers.CharField()
     radius = serializers.IntegerField()
     lat = serializers.FloatField()
     long = serializers.FloatField()
+
+
+class TouristSearchSerializer(serializers.Serializer):
+    keyword = serializers.CharField()
+    country = serializers.CharField()

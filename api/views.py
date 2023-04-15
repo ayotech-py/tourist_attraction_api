@@ -5,6 +5,21 @@ from rest_framework.response import Response
 from .serializers import *
 from .recommender import *
 
+#url = 'https://tourist-api.onrender.com/places/'
+url = 'http://127.0.0.1:8000/places/'
+
+
+class UrlViews(APIView):
+    def get(self, request):
+        return Response({
+            'Location View': url+'tourist_attraction/',
+            'Location Radius View': url+'tourist_radius/',
+            'Budget View': url+'tourist_budget/',
+            'Tourist Type View': url+'tourist_type/',
+            'Tourist Type-Radius View': url+'tourist_type_radius/',
+            'Tourist Search View': url+'tourist_search/'
+        })
+
 
 class LocInputView(APIView):
     serializer_class = LocInputSerializer
@@ -80,7 +95,7 @@ class TypeInputView(APIView):
         serializer.is_valid(raise_exception=True)
         lat = serializer.validated_data['lat']
         long = serializer.validated_data['long']
-        preferred_type = serializer.validated_data['preferred_type']
+        preferred_type = serializer.validated_data['keyword']
 
         try:
             result = tourist_type_recommendation(
@@ -102,12 +117,32 @@ class TypeRadiusInputView(APIView):
         serializer.is_valid(raise_exception=True)
         lat = serializer.validated_data['lat']
         long = serializer.validated_data['long']
-        preferred_type = serializer.validated_data['preferred_type']
+        preferred_type = serializer.validated_data['keyword']
         radius = serializer.validated_data['radius']
 
         try:
             result = tourist_type_recommendation(
                 lat=lat, long=long, keyword=preferred_type, max_distance=radius)
+            context = {
+                'data': result
+            }
+            return Response(context)
+        except Exception:
+            return Response({'error': "Couldn't find tourist attraction around you"}, status=400)
+
+
+class SearchView(APIView):
+    serializer_class = TouristSearchSerializer
+
+    def post(self, request):
+        data = request.data
+        #serializer = self.serializer_class(data=data)
+        # serializer.is_valid(raise_exception=True)
+        keyword = data['keyword']
+        country = data['country']
+
+        try:
+            result = tourist_search(keyword=keyword, country=country)
             context = {
                 'data': result
             }
