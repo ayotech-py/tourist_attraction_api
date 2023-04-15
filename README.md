@@ -108,7 +108,16 @@ print(response.text)
 
 # API Response
 
-The api returns a json response when a post request is sent to the endpoint. An example is shown below
+The api returns a json response containing all tourist places when a post request is sent to the endpoint. The below response was received when a request was sent to the api endpoint
+
+```python
+import requests
+
+url = 'https://tourist-api.onrender.com/places/tourist_search/'
+
+response = requests.post(url=url, json={'keyword': 'tourist', 'location': 'Georgia'})
+print(response.text)
+```
 
 ```
 {
