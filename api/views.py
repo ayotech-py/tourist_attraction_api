@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from .serializers import *
 from .recommender import *
 
-#url = 'https://tourist-api.onrender.com/places/'
-url = 'http://127.0.0.1:8000/places/'
+url = 'https://tourist-api.onrender.com/places/'
+#url = 'http://127.0.0.1:8000/places/'
 
 
 class UrlViews(APIView):
