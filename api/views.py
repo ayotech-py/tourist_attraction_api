@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from .serializers import *
 from .recommender import *
 
-url = 'https://tourist-api.onrender.com/places/'
+url = 'https://touristattractionapi-production.up.railway.app/places/'
 #url = 'http://127.0.0.1:8000/places/'
 
 
@@ -140,12 +140,15 @@ class SearchView(APIView):
         # serializer.is_valid(raise_exception=True)
         keyword = data['keyword']
         country = data['location']
+        budget = data['budget']
 
         try:
-            result = tourist_search(keyword=keyword, country=country)
+            result = tourist_search(
+                keyword=keyword, country=country, budget=int(budget))
             context = {
                 'data': result
             }
+            print(context)
             return Response(context)
         except Exception:
             return Response({'error': "Couldn't find tourist attraction around you"}, status=400)

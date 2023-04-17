@@ -34,3 +34,4 @@ class TypeRadiusInputSerializer(serializers.Serializer):
 class TouristSearchSerializer(serializers.Serializer):
     keyword = serializers.CharField()
     location = serializers.CharField()
+    budget = serializers.IntegerField()

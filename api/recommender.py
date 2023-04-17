@@ -58,10 +58,10 @@ def budget_loc_recommendation(lat, long, budget, data=data):
             {
                 'business_status': data['business_status'].iloc[i],
                 'tourist_place': data['name'].iloc[i],
-                'opening_now': data['opening_hours'].iloc[i],
+                'region': data['region'].iloc[i],
                 'about': data['photos'].iloc[i],
                 'location': data["formatted_address"].iloc[i],
-                'country': str(data['country'].iloc[i]).replace('%20', ' '),
+                'country': data['country'].iloc[i],
                 'price': data['price'].iloc[i],
                 'lat': data['lat'].iloc[i],
                 'long': data['lng'].iloc[i],
@@ -122,10 +122,10 @@ def tourism_recommendation(lat, long, max_distance=200, budget=1000, data=data):
             {
                 'business_status': data['business_status'].iloc[i],
                 'tourist_place': data['name'].iloc[i],
-                'opening_now': data['opening_hours'].iloc[i],
+                'region': data['region'].iloc[i],
                 'about': data['photos'].iloc[i],
                 'location': data["formatted_address"].iloc[i],
-                'country': str(data['country'].iloc[i]).replace('%20', ' '),
+                'country': data['country'].iloc[i],
                 'price': data['price'].iloc[i],
                 'lat': data['lat'].iloc[i],
                 'long': data['lng'].iloc[i],
@@ -196,10 +196,10 @@ def tourist_type_recommendation(lat, long, keyword, max_distance=200, data=data)
             {
                 'business_status': data['business_status'].iloc[i],
                 'tourist_place': data['name'].iloc[i],
-                'opening_now': data['opening_hours'].iloc[i],
+                'region': data['region'].iloc[i],
                 'about': data['photos'].iloc[i],
                 'location': data["formatted_address"].iloc[i],
-                'country': str(data['country'].iloc[i]).replace('%20', ' '),
+                'country': data['country'].iloc[i],
                 'price': data['price'].iloc[i],
                 'lat': data['lat'].iloc[i],
                 'long': data['lng'].iloc[i],
@@ -211,7 +211,7 @@ def tourist_type_recommendation(lat, long, keyword, max_distance=200, data=data)
     return recommendations
 
 
-def tourist_search(keyword=None, country=None, data=data):
+def tourist_search(keyword=None, country=None, budget=2000, data=data):
     # filter based on country
     if country is not None:
         country_mask = (data['country'].str.contains(country, case=False)) | (
@@ -222,6 +222,8 @@ def tourist_search(keyword=None, country=None, data=data):
         mask = (data['types'].str.contains(keyword, case=False)) | (data['name'].str.contains(keyword, case=False)) | (
             data['formatted_address'].str.contains(keyword, case=False)) | (data['country'].str.contains(keyword, case=False))
         data = data[mask]
+
+    data = data[data['price'] <= budget]
 
     # Compute the similarity matrix between tourist places
     from sklearn.feature_extraction.text import TfidfVectorizer
@@ -254,7 +256,7 @@ def tourist_search(keyword=None, country=None, data=data):
             {
                 'business_status': data['business_status'].iloc[i],
                 'tourist_place': data['name'].iloc[i],
-                'opening_now': data['opening_hours'].iloc[i],
+                'region': data['region'].iloc[i],
                 'about': data['photos'].iloc[i],
                 'location': data["formatted_address"].iloc[i],
                 'country': str(data['country'].iloc[i]).replace('%20', ' '),
