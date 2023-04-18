@@ -1,4 +1,4 @@
-# Tourism AI Recommendation Service API
+# Free Time Planner - AI Recommendation Service API
 
 An AI recommendation service that gives personalized tourist attraction recommendations based on the following
 
