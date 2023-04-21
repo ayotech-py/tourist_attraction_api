@@ -3,7 +3,7 @@
 An AI recommendation service that gives personalized tourist attraction recommendations based on the following
 
 - Users input (budget, location, radius, search keywords)
-- Keyword filter”.
+- Browser history, social media activity and purchase history.
 - Feedback (ratings from user) to improve the recommendations.
 
 # Libraries used in building this Service API
