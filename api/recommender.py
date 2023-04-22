@@ -214,8 +214,8 @@ def tourist_type_recommendation(lat, long, keyword, max_distance=200, data=data)
 def tourist_search(keyword=None, country=None, budget=2000, data=data):
     # filter based on country
     if country is not None:
-        country_mask = (data['country'].str.contains(country, case=False)) | (
-            data['formatted_address'].str.contains(country, case=False))
+        country_mask = (data['types'].str.contains(keyword, case=False)) | (data['name'].str.contains(keyword, case=False)) | (
+            data['formatted_address'].str.contains(keyword, case=False)) | (data['country'].str.contains(keyword, case=False))
         data = data[country_mask]
     if keyword is not None:
         # Filter the data based on keyword matching
