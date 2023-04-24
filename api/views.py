@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
 from .recommender import *
+from .browser_history import *
 
 url = 'https://touristattractionapi-production.up.railway.app/places/'
 #url = 'http://127.0.0.1:8000/places/'
