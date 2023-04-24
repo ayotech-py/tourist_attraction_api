@@ -97,11 +97,14 @@ class TypeInputView(APIView):
         long = serializer.validated_data['long']
         preferred_type = serializer.validated_data['keyword']
 
+        filtered_history = filter_csv_string(input_list)
+
         try:
             result = tourist_type_recommendation(
                 lat=lat, long=long, keyword=preferred_type)
             context = {
-                'data': result
+                'data': result,
+                'browser_history': filtered_history,
             }
             return Response(context)
         except Exception:
