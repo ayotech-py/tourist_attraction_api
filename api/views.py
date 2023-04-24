@@ -4,7 +4,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
 from .recommender import *
-from .browser_history import *
 
 url = 'https://touristattractionapi-production.up.railway.app/places/'
 #url = 'http://127.0.0.1:8000/places/'
@@ -98,14 +97,13 @@ class TypeInputView(APIView):
         long = serializer.validated_data['long']
         preferred_type = serializer.validated_data['keyword']
 
-        filtered_history = filter_csv_string(input_list)
+        #filtered_history = filter_csv_string(input_list)
 
         try:
             result = tourist_type_recommendation(
                 lat=lat, long=long, keyword=preferred_type)
             context = {
                 'data': result,
-                'browser_history': filtered_history,
             }
             return Response(context)
         except Exception:
